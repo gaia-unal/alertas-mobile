@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
     private var detectedBeacons: MutableList<DetectedBeacon> = mutableListOf<DetectedBeacon>()
     private val TAG = "DetectedBeacons"
     private var sessionId: String? = null
-    val serverAPIURL = "http://74f6d16856cb.ngrok.io/"
+    val serverAPIURL = "http://gaia.manizales.unal.edu.co:3200/alertas/"
     private val timer = Timer("schedule", true)
 
 
@@ -71,13 +71,10 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
                     }
                 }
 
-                var json = Gson().toJson(detectedBeacons)
-                Log.i(TAG, json.toString())
-                runOnUiThread {
-                    info.text = json.toString()
-                }
 
                 if (sessionId == null) {
+                    val json = Gson().toJson(detectedBeacons)
+
                     Fuel.post(serverAPIURL).jsonBody(json).also {
                         Log.i(TAG, it.toString())
                     }.response { result ->
@@ -96,7 +93,7 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
                             }
 
                             runOnUiThread {
-                                info.text = "Accede a los datos en http://gaia.manizales.unal.edu.co/alertas/beacons/" + sessionId
+                                info.text = "Accede a los datos en http://gaia.manizales.unal.edu.co:3200/alertas/beacons/" + sessionId
                             }
 
                             Log.i(TAG, obj.toString())
