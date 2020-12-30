@@ -3,9 +3,9 @@ package com.example.alertas
 import android.os.Bundle
 import android.os.RemoteException
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.github.kittinunf.fuel.Fuel
-import com.github.kittinunf.fuel.core.FuelManager
 import com.github.kittinunf.fuel.core.extensions.jsonBody
 import com.google.gson.Gson
 import com.google.gson.JsonParser
@@ -13,7 +13,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.altbeacon.beacon.*
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.concurrent.schedule
 import kotlin.concurrent.scheduleAtFixedRate
 
 data class DetectedBeacon(
@@ -97,6 +96,11 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
                             }
 
                             Log.i(TAG, obj.toString())
+                        } else {
+                            runOnUiThread {
+                                info.text = "Error"
+                            }
+
                         }
                     }
 
